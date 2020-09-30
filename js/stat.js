@@ -51,14 +51,15 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Список результатов:', CLOUD_WIDTH / 2 + GAP, CLOUD_Y + BAR_GAP);
 
   for (let i = 0; i < names.length; i++) {
+    ctx.fillStyle = '#000';
+    ctx.fillText(names[i], CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP);
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
       ctx.fillStyle = 'hsl(240,' + (Math.floor(Math.random() * 100)) + '%, 50%)';
     }
-
-    ctx.fillText(names[i], CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP);
     ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, (CLOUD_HEIGHT - getSize(BAR_HEIGHT, times[i], maxTime)) - BAR_GAP_HALF, BAR_WIDTH, getSize(BAR_HEIGHT, times[i], maxTime));
+    ctx.fillStyle = '#000';
     ctx.fillText(Math.floor(times[i]), CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, (CLOUD_HEIGHT - getSize(BAR_HEIGHT, times[i], maxTime)) - BAR_GAP_HALF - GAP);
   }
 
