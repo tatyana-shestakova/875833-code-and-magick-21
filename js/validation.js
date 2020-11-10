@@ -4,7 +4,10 @@
 (function () {
 
   const form = window.dialog.setup.querySelector('.setup-wizard-form');
-  const userNameInput = form.querySelector('.setup-user-name');
+  window.validation = {
+    setupForm: form
+  };
+  const userNameInput = window.validation.setupForm.querySelector('.setup-user-name');
 
   userNameInput.addEventListener('invalid', function () {
     if (userNameInput.validity.tooShort) {
