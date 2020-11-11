@@ -11,4 +11,14 @@
   window.changeColor(eyesColorUser, window.util.wizardEyes, '.setup-player input[name="eyes-color"]');
   window.changeColor(fireballColorUser, window.util.fireballsColor, '.setup-player input[name="fireball-color"]');
 
+  const submitHandler = (evt) => {
+    window.backend.save(new FormData(window.validation.setupForm), function () {
+      window.dialog.setup.classList.add('hidden');
+    }, window.ErrorHandler);
+
+    evt.preventDefault();
+  };
+
+  window.validation.setupForm.addEventListener('submit', submitHandler);
+
 })();

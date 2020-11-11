@@ -3,8 +3,6 @@
 (function () {
   const ESC_KEYCODE = 27;
   const ENTER_KEYCODE = 13;
-  const WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  const WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   const WIZARD_COATS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   const WIZARD_EYES = ['black', 'red', 'blue', 'yellow', 'green'];
   const FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
@@ -23,11 +21,10 @@
         action();
       }
     },
-    wizardNames: WIZARD_NAMES,
-    wizardSurnames: WIZARD_SURNAMES,
+
     wizardCoats: WIZARD_COATS,
     wizardEyes: WIZARD_EYES,
-    fireballsColor: FIREBALL_COLOR
+    fireballsColor: FIREBALL_COLOR,
   };
 
 })();

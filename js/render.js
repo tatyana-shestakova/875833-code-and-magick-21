@@ -4,6 +4,7 @@
 
   const similarWizardsList = document.querySelector('.setup-similar-list');
   const wizardsTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+  const COUNT_WIZARDS = 4;
 
   window.render = {
     indexRandomizer: (variable) => {
@@ -12,46 +13,36 @@
     }
   };
 
-  const wizards = [
-    {
-      name: window.render.indexRandomizer(window.util.wizardNames) + ' ' + window.render.indexRandomizer(window.util.wizardSurnames),
-      coatColor: window.render.indexRandomizer(window.util.wizardCoats),
-      eyesColor: window.render.indexRandomizer(window.util.wizardEyes)
-    },
-    {
-      name: window.render.indexRandomizer(window.util.wizardNames) + ' ' + window.render.indexRandomizer(window.util.wizardSurnames),
-      coatColor: window.render.indexRandomizer(window.util.wizardCoats),
-      eyesColor: window.render.indexRandomizer(window.util.wizardEyes)
-    },
-    {
-      name: window.render.indexRandomizer(window.util.wizardNames) + ' ' + window.render.indexRandomizer(window.util.wizardSurnames),
-      coatColor: window.render.indexRandomizer(window.util.wizardCoats),
-      eyesColor: window.render.indexRandomizer(window.util.wizardEyes)
-    },
-    {
-      name: window.render.indexRandomizer(window.util.wizardNames) + ' ' + window.render.indexRandomizer(window.util.wizardSurnames),
-      coatColor: window.render.indexRandomizer(window.util.wizardCoats),
-      eyesColor: window.render.indexRandomizer(window.util.wizardEyes)
-    }
-  ];
-
   const renderWizards = (wizard) => {
     let wizardsElement = wizardsTemplate.cloneNode(true);
     wizardsElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardsElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardsElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardsElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardsElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
     return wizardsElement;
   };
 
-  const renderFragment = (data) => {
+
+  const renderWizardsHandler = (wizards) => {
     let fragment = document.createDocumentFragment();
-    for (let i = 0; i < data.length; i++) {
-      fragment.appendChild(renderWizards(data[i]));
+    for (let i = 0; i < COUNT_WIZARDS; i++) {
+      fragment.appendChild(renderWizards(window.render.indexRandomizer(wizards)));
       similarWizardsList.appendChild(fragment);
     }
   };
 
-  renderFragment(wizards);
+  window.ErrorHandler = (errorMessage) => {
+    let node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: white; color: black;';
+    node.style.position = 'absolute';
+    node.style.left = 10 + '%';
+    node.style.top = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(renderWizardsHandler, window.ErrorHandler);
 
 })();
