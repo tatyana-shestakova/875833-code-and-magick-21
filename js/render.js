@@ -1,10 +1,14 @@
 'use strict';
 
 (function () {
-
+  const COUNT_WIZARDS = 4;
   const similarWizardsList = document.querySelector('.setup-similar-list');
   const wizardsTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-  const COUNT_WIZARDS = 4;
+  const coatColorUser = document.querySelector('.setup-wizard .wizard-coat');
+  const eyesColorUser = document.querySelector('.setup-wizard .wizard-eyes');
+  const fireballColorUser = document.querySelector('.setup-fireball-wrap');
+
+  let newWizards = [];
 
   window.render = {
     indexRandomizer: (variable) => {
@@ -22,16 +26,55 @@
     return wizardsElement;
   };
 
-
-  const renderWizardsHandler = (wizards) => {
+  const renderSimilarWizards = (wizards) => {
     let fragment = document.createDocumentFragment();
-    for (let i = 0; i < COUNT_WIZARDS; i++) {
-      fragment.appendChild(renderWizards(window.render.indexRandomizer(wizards)));
+    const takeNumber = wizards.length > COUNT_WIZARDS ? COUNT_WIZARDS : wizards.length;
+    similarWizardsList.innerHTML = '';
+    for (let i = 0; i < takeNumber; i++) {
+      fragment.appendChild(renderWizards(wizards[i]));
       similarWizardsList.appendChild(fragment);
     }
   };
 
-  window.ErrorHandler = (errorMessage) => {
+  const getRank = (wizard) => {
+    let rank = 0;
+
+    if (wizard.colorCoat === window.colorize.sortCoat) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === window.colorize.sortEyes) {
+      rank += 1;
+    }
+
+    return rank;
+  };
+
+  const namesComparator = (a, b) => {
+    if (a > b) {
+      return 1;
+    } else if (a < b) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
+  window.updateWizards = () => {
+    renderSimilarWizards(newWizards.sort(function (a, b) {
+      let rankDiff = getRank(b) - getRank(a);
+      if (rankDiff === 0) {
+        rankDiff = namesComparator(a.name, b.name);
+      }
+      return rankDiff;
+    }));
+  };
+
+  const successHandler = (data) => {
+    newWizards = data;
+    window.updateWizards();
+  };
+
+  window.errorHandler = (errorMessage) => {
     let node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: white; color: black;';
     node.style.position = 'absolute';
@@ -43,6 +86,10 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.backend.load(renderWizardsHandler, window.ErrorHandler);
+  window.colorize.changeColorCoat(coatColorUser, window.util.wizardCoats);
+  window.colorize.changeColorEyes(eyesColorUser, window.util.wizardEyes);
+  window.colorize.changeColorFire(fireballColorUser, window.util.fireballsColor, '.setup-player input[name="fireball-color"]');
+
+  window.backend.load(successHandler, window.errorHandler);
 
 })();
