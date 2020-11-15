@@ -1,18 +1,38 @@
 'use strict';
 
 (function () {
-  const clickcolor = (variable, arr, selector) => {
-    let colorValue = window.render.indexRandomizer(arr);
-    let input = document.querySelector(selector);
-    variable.style.fill = colorValue;
-    variable.style.background = colorValue;
-    input.value = colorValue;
-  };
+  let colorValue;
+  let coatColor = 'rgb(101, 137, 164)';
+  let eyesColor = 'black';
 
-  window.changeColor = (element, color, part) => {
-    element.addEventListener('click', function () {
-      clickcolor(element, color, part);
-    });
+  window.colorize = {
+    sortCoat: coatColor,
+    sortEyes: eyesColor,
+
+    changeColorCoat: (element, color) => {
+      element.addEventListener('click', function () {
+        colorValue = window.render.indexRandomizer(color);
+        element.style.fill = colorValue;
+        window.colorize.sortCoat = colorValue;
+        window.debounce(window.updateWizards);
+      });
+    },
+    changeColorEyes: (element, color) => {
+      element.addEventListener('click', function () {
+        colorValue = window.render.indexRandomizer(color);
+        element.style.fill = colorValue;
+        window.colorize.sortEyes = colorValue;
+        window.debounce(window.updateWizards);
+      });
+    },
+    changeColorFire: (element, color, part) => {
+      element.addEventListener('click', function () {
+        colorValue = window.render.indexRandomizer(color);
+        let input = document.querySelector(part);
+        input.value = colorValue;
+        element.style.background = colorValue;
+      });
+    }
   };
 
 })();
