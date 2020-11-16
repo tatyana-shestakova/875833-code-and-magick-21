@@ -1,16 +1,14 @@
 'use strict';
 
-(function () {
-  window.dialog.setup.querySelector('.setup-similar').classList.remove('hidden');
+window.dialog.setup.querySelector('.setup-similar').classList.remove('hidden');
 
-  const submitHandler = (evt) => {
-    window.backend.save(new FormData(window.validation.setupForm), function () {
-      window.dialog.setup.classList.add('hidden');
-    }, window.ErrorHandler);
+const submitHandler = (evt) => {
+  window.backend.save(new FormData(window.validation.setupForm), function () {
+    window.dialog.setup.classList.add('hidden');
+  }, window.ErrorHandler);
 
-    evt.preventDefault();
-  };
+  evt.preventDefault();
+};
 
-  window.validation.setupForm.addEventListener('submit', submitHandler);
+window.validation.setupForm.addEventListener('submit', submitHandler);
 
-})();
